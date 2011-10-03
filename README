@@ -1,0 +1,7 @@
+README
+
+Ravi Sankar (sankarr@stanford.edu)
+
+Build the file by running "ghc --make histo"
+Run it like ./histo <filename>
+It currently doesn't work with multiple filenames or input over stdin
