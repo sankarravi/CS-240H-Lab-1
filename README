@@ -3,5 +3,11 @@ README
 Ravi Sankar (sankarr@stanford.edu)
 
 Build the file by running "ghc --make histo"
-Run it like ./histo <filename>
-It currently doesn't work with multiple filenames or input over stdin
+
+Run it either as:
+./histo <filename1 [filename2 filename3...]>
+or just
+./histo
+
+The latter will accept input over stdin, which
+should be terminated with an EOF.

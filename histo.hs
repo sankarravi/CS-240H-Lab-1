@@ -9,8 +9,7 @@ import Text.Printf
 main :: IO ()
 main = do
 	--read input to string
-	(source:_) <- getArgs
-	fileStr <- readFile source
+	fileStr <- argsToFileContents
 	
 	--convert to a list of lowercase words, ignoring punctuation around words
 	let normalizedListOfWords = words $ map toLower (stripPunctuation fileStr)
@@ -21,7 +20,15 @@ main = do
 	let scaledList = scaleFrequencies sortedList maxWordLen
 	printHistogram scaledList
 
-	
+
+--Return a string containing either stdin
+-- or the concatenated contents of the input files
+argsToFileContents = do
+	args <- getArgs
+	case args of
+		[] -> getContents
+		files -> concat `fmap` mapM readFile files
+					
 --Create a Map <Word, Frequency>:
 -- first convert the list of words to a list of tuples (word, 1)
 -- then combine those tuples, summing the value when the key matches
@@ -29,7 +36,7 @@ wordsToFreqMap :: [String] -> Map.Map String Integer
 wordsToFreqMap = Map.fromListWith (+) . map (\word -> (word,1))
 	
 --Convert the Map back into a List, sorting the new tuples by
---frequency (descending) then word (ascending alpha)
+-- frequency (descending) then word (ascending alpha)
 freqMapToSortedList :: Map.Map String Integer -> [(String, Integer)]
 freqMapToSortedList = sortBy compareWordFreqTuple . Map.toList
 
